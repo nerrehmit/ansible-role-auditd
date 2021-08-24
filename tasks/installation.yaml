@@ -1,0 +1,12 @@
+---
+
+- name: install packages
+  package:
+    name: '{{ auditd_packages }}'
+    state: present
+
+- name: ensure rules.d directory exists
+  file:
+    path: '{{ auditd_custom_rules_dir }}'
+    state: directory
+    mode: '0750'

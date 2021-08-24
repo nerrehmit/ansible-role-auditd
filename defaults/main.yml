@@ -1,0 +1,105 @@
+---
+
+##
+# main config
+##
+
+auditd_config_dir: /etc/audit
+auditd_config_file: auditd.conf
+auditd_custom_rules_dir: /etc/audit/rules.d
+auditd_local_events: "yes"
+auditd_write_logs: "yes"
+
+##
+# log files
+##
+
+auditd_log_file: /var/log/audit/audit.log
+# Log format. Options: RAW and NOLOG
+auditd_log_format: RAW 
+# Log file owner group.
+auditd_log_group: root
+# Number of logfiles to keep.
+auditd_num_logs: 5
+# Maximum log file size in megabytes.
+auditd_max_log_file_size: 8
+# What happens if max log file size is reached.
+# Options: ignore, syslog, suspend, rotate, keep_logs
+auditd_max_log_file_action: rotate
+# Number of megabytes of free space left when space_left_action gets performed.
+auditd_space_left: 75
+# Options: ignore, syslog, email, exec, suspend, single, halt
+auditd_space_left_action: syslog
+# Number of megabytes of free space left when admin_space_left_action gets performed.
+auditd_admin_space_left: 50
+# Options: ignore, syslog, email, exec, suspend, single, halt
+auditd_admin_space_left_action: suspend
+# Action to be taken on disk full
+auditd_disk_full_action: suspend
+# Action to be taken on disk error
+auditd_disk_error_action: suspend
+
+
+##
+# misc configs
+##
+
+# priority boost for the audit daemon, default: 4
+auditd_priority_boost: 4
+# How to flush auditd records to disk.
+# Options: none, incremental, data, sync
+auditd_flush_strategy: INCREMENTAL_ASYNC
+# How many records to write before issuing an explicit flush.
+# only used if flush_strategy is set to incremental.
+auditd_flush_freq: 50
+# Blocking/lossless or non-blocking/lossy communication between the audit
+# daemon and the dispatcher queue. The buffer size is 128k, so lossy should do fine.
+auditd_disp_qos: lossy
+# Auditd dispatcher software, defaults to audispd. See man audispd.
+auditd_dispatcher: /sbin/audispd
+# How computer node names are insertet into the audit event stream.
+# Options: none, hostname, fqd, numeric (means ip), user
+auditd_name_format: NUMERIC
+# Wheter to use kerberos5
+auditd_enable_krb5: "no"
+# Krb5 principal for this server. Default = auditd
+auditd_krb5_principal: auditd
+
+##
+# connections
+##
+
+# Controls how many pending connections are allowed. Default = 5
+auditd_tcp_listen_queue: 5
+# Controls how many concurrent connections from one ip adress are allowed.
+auditd_tcp_max_per_addr: 1
+# Wheter or not to use tcp_wrappers.
+auditd_use_libwrap: "yes"
+# Number of seconds a client is allowed to idle.
+auditd_tcp_client_max_idle: 0
+# Distribute network originating events to the dispatcher
+auditd_distribute_network: "no"
+
+##
+# alerting
+##
+
+# Whom to notify. If not root, sendmail has to be configured
+auditd_action_mail_acct: root
+
+
+##
+# custom rules
+##
+
+# Kernel buffer size for custom rules
+auditd_custom_buffer_size: 32768
+# Enable flag 
+# Options: 0=disable, 1=enable, 2=locked, requires reboot to unlock
+auditd_custom_enable_flag: 1
+# What happens in case of a failure.
+# Options: 0=silent, 1=printk, 2=panic
+auditd_custom_on_failure: 1
+# Maximum amount of messages per second per rule before the failure flag gets executed
+# Default = 0, (=none)
+auditd_custom_max_msg_per_sec: 100

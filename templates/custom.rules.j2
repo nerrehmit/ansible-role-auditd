@@ -1,0 +1,25 @@
+# Delete all previous rules
+-D
+# Set buffer size
+-b {{ auditd_custom_buffer_size }}
+# Define enable flag
+-e {{ auditd_custom_enable_flag }}
+# Define what happens in case of a failure
+-f {{ auditd_custom_on_failure }}
+# Max amount of messages per second
+-r {{ auditd_custom_max_msg_per_sec }}
+
+# ansible generated custom rules
+{% if auditd_custom_rules is defined %}
+{% for rule in auditd_custom_rules %}
+{% if rule.type == 'filesystem' %}
+-w {{ rule.file }} -p {{ rule.permissions }} -k {{ rule.comment }}
+{% endif %}
+{% if rule.type == 'syscall' %}
+-a {{ rule.action }}{% if rule.filters is defined %}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% endif %}{% if rule.syscalls is defined %}{% for syscall in rule.syscalls %} -S {{ syscall }}{% endfor %}{% endif %} -k {{ rule.comment }}
+{% endif %}
+{% if rule.type == 'executable' %}
+-a {{ rule.action }} -F exe={{ rule.executable }}{% if rule.filters is defined %}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% endif %} -S execve -k {{ rule.comment }}
+{% endif %}
+{% endfor %}
+{% endif %}

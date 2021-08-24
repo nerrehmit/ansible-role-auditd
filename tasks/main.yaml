@@ -1,0 +1,19 @@
+---
+
+- name: load variables based on distribution type
+  include_vars: '{{ item }}'
+  with_first_found:
+    - '{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yaml'
+    - '{{ ansible_os_family }}.yaml'
+  tags:
+    - 'auditd_vars'
+
+- name: install auditd and its components
+  import_tasks: installation.yaml
+  tags:
+    - 'auditd_installation'
+
+- name: push auditd config
+  import_tasks: configuration.yaml
+  tags:
+    - 'auditd_configuration'

@@ -1,0 +1,23 @@
+---
+
+- name: push auditd configuration
+  template:
+    src: auditd.conf.j2
+    dest: '{{ auditd_config_dir }}/{{ auditd_config_file }}'
+    mode: '0640'
+  notify:
+    - restart auditd
+
+- name: push custom rules
+  template:
+    src: custom.rules.j2
+    dest: '{{ auditd_custom_rules_dir }}/custom.rules'
+    mode: '0666'
+  notify:
+    - load custom rules
+
+- name: start and enable auditd
+  service:
+    name: auditd
+    state: started
+    enabled: true
