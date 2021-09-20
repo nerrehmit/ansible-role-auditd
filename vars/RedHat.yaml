@@ -1,0 +1,4 @@
+---
+
+auditd_packages: audit
+auditd_dependencies:
