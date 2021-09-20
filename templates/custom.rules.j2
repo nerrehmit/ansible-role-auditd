@@ -22,7 +22,7 @@
 -a {{ rule.action }} -F exe={{ rule.executable }}{% if rule.filters is defined %}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% endif %} -S execve -k {{ rule.comment }}
 {% endif %}
 {% if rule.type == 'global_filter' %}
--a {{ rule.action }}{% if rule.filters is defined %}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% endif %}
+-a {{ rule.action }}{% if rule.filters is defined %}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% endif %}{{''}}
 {% endif %}
 {% endfor %}
 {% endif %}
