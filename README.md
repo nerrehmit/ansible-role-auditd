@@ -150,6 +150,12 @@ auditd_custom_rules:
       - arch=b64
     executable: /bin/id
     comment: execution_bin_id
+  # define general filter rule
+  - type: global_filter
+    action: always,exit
+    filters:
+      - dir=/opt/application
+      - perm=wa
 ```
 
 All the configurations for the audit daemon are configurable as variables. See `defaults/main.yaml` for more details.
