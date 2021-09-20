@@ -13,7 +13,7 @@
 {% if auditd_custom_rules is defined %}
 {% for rule in auditd_custom_rules %}
 {% if rule.type == 'filesystem' %}
--w {{ rule.file }} -p {{ rule.permissions }} -k {{ rule.comment }}
+{% for file in rule.files %} -w {{ file }}{% endfor %} -p {{ rule.permissions }} -k {{ rule.comment }}
 {% endif %}
 {% if rule.type == 'syscall' %}
 -a {{ rule.action }}{% if rule.filters is defined %}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% endif %}{% if rule.syscalls is defined %}{% for syscall in rule.syscalls %} -S {{ syscall }}{% endfor %}{% endif %} -k {{ rule.comment }}
